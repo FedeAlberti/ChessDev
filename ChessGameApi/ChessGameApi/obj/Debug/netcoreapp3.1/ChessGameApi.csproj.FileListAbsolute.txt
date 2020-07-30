@@ -1,0 +1,5 @@
+C:\Proyectos\chess\ChessGameApi\ChessGameApi\obj\Debug\netcoreapp3.1\ChessGameApi.csprojAssemblyReference.cache
+C:\Proyectos\chess\ChessGameApi\ChessGameApi\obj\Debug\netcoreapp3.1\ChessGameApi.AssemblyInfoInputs.cache
+C:\Proyectos\chess\ChessGameApi\ChessGameApi\obj\Debug\netcoreapp3.1\ChessGameApi.AssemblyInfo.cs
+C:\Proyectos\chess\ChessGameApi\ChessGameApi\obj\Debug\netcoreapp3.1\ChessGameApi.csproj.CoreCompileInputs.cache
+C:\Proyectos\chess\ChessGameApi\ChessGameApi\obj\Debug\netcoreapp3.1\ChessGameApi.MvcApplicationPartsAssemblyInfo.cache

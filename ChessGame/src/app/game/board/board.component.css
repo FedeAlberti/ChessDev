@@ -1,0 +1,49 @@
+
+.checkerboard{
+  margin: 0 auto;
+;
+}
+
+.board-tile{
+  height: 80px;
+  width: 80px;
+  border: black solid 1px;
+  float:left;
+}
+.board-tile:hover  {
+  border: #c4c4c4 inset 1px;
+}
+
+/*black squares */
+.checkerboard > div:nth-child(odd) > div:nth-child(even){
+  background-color: #54320a;
+}
+.checkerboard > div:nth-child(even) > div:nth-child(odd){
+  background-color: #54320a;
+}
+.checkerboard > div:nth-child(odd) > div:nth-child(even):hover{
+  background-color: #72430d;
+}
+.checkerboard > div:nth-child(even) > div:nth-child(odd):hover{
+  background-color: #72430d;
+}
+
+/*white squares */
+.checkerboard > div:nth-child(even) > div:nth-child(even){
+  background-color: #e2d37f;
+}
+.checkerboard > div:nth-child(odd) > div:nth-child(odd){
+  background-color: #e2d37f;
+}
+.checkerboard > div:nth-child(even) > div:nth-child(even):hover{
+  background-color:#e7db97;
+}
+.checkerboard > div:nth-child(odd) > div:nth-child(odd):hover{
+  background-color: #e7db97;
+}
+
+/*columns*/
+.x-0{
+  clear: left;
+}
+

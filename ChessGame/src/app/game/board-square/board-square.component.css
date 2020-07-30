@@ -1,0 +1,75 @@
+div
+{
+  height: 100%;
+  width: 100%;
+}
+
+.non-active-piece {
+  filter: contrast(25%);
+}
+.allowed-move:hover {
+  border: green solid 4px;
+}
+.illegal-move:hover {
+  border: red solid 4px;
+}
+
+
+.black-Pawn
+{
+  background-image:url('../../../assets/img/pieces/BlackPawn.png');
+}
+
+.black-Rook
+{
+  background-image:url('../../../assets/img/pieces/BlackRook.png');
+}
+
+.black-Knight
+{
+  background-image:url('../../../assets/img/pieces/BlackKnight.png');
+}
+
+.black-Bishop
+{
+  background-image:url('../../../assets/img/pieces/BlackBishop.png');
+}
+
+.black-Queen
+{
+  background-image:url('../../../assets/img/pieces/BlackQueen.png');
+}
+
+.black-King
+{
+  background-image:url('../../../assets/img/pieces/BlackKing.png');
+}
+.white-Pawn
+{
+  background-image:url('../../../assets/img/pieces/WhitePawn.png');
+}
+
+.white-Rook
+{
+  background-image:url('../../../assets/img/pieces/WhiteRook.png');
+}
+
+.white-Knight
+{
+  background-image:url('../../../assets/img/pieces/WhiteKnight.png');
+}
+
+.white-Bishop
+{
+  background-image:url('../../../assets/img/pieces/WhiteBishop.png');
+}
+
+.white-Queen
+{
+  background-image:url('../../../assets/img/pieces/WhiteQueen.png');
+}
+
+.white-King
+{
+  background-image:url('../../../assets/img/pieces/WhiteKing.png');
+}
