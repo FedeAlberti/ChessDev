@@ -7,7 +7,7 @@ div
 .non-active-piece {
   filter: contrast(25%);
 }
-.allowed-move:hover {
+.allowed-move {
   border: green solid 4px;
 }
 .illegal-move:hover {

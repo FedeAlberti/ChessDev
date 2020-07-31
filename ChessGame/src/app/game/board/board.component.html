@@ -1,11 +1,11 @@
 <div class="checkerboard">
-  <div *ngFor="let row of boardY;">
+  <div *ngFor="let row of boardY;" class="boardY">
     <div *ngFor="let column of boardX;" class="board-tile x-{{column}} y-{{row}}">
       <app-board-square
           [x]='column'
           [y]='row'
       >
-        </app-board-square><div>x-{{column}} y-{{row}}</div>
+        </app-board-square>
     </div>
   </div>
 </div>

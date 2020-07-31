@@ -9,7 +9,11 @@ export class BoardSquareComponent implements OnInit {
   @Input()x: number;
   @Input()y: number;
 
-  constructor() { }
+   yy: number;
+
+  constructor() {
+    this.yy = 0;
+   }
 
   ngOnInit(): void {
   }
@@ -27,5 +31,20 @@ export class BoardSquareComponent implements OnInit {
     }
 
     return cssString;
+  }
+
+  test(){
+    console.log("cos");
+    debugger;
+    if(this.yy === 0)
+    {
+    const element = document.getElementById('0-0');
+    element.style.backgroundColor = 'green';
+    this.yy = 1;
+    }else{
+      this.yy = 0;
+      const element = document.getElementById('0-0');
+      element.style.backgroundColor = '';
+    }
   }
 }
