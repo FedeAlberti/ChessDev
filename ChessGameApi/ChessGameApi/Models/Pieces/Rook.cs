@@ -7,63 +7,25 @@ namespace ChessGameAPI.Models.Pieces
     public class Rook : Piece
     {
 
-        public Rook(Game game, colorPlayer color, int x, int y) : base(game, color, x, y)
+        public Rook(colorPlayer color, int x, int y) : base(color, x, y)
         {
+            this.PieceType = PiecesTypeEnum.Rook ;
         }
 
         /// <summary>
         /// Get all possible moves.
         /// </summary>
-        public override void GetAllMoves()
+        public override void GetAllMoves(Game game)
         {
-            if (possibleMoves == null)
-            {
-                possibleMoves = new Dictionary<(int, int), Piece>();
-            }
-            else
-            {
-                possibleMoves.Clear();
-            }
+            CheckPossibleMove();
 
-            int tempX = X;
-            int tempY = Y;
-            bool keepGoing = true;
-            // right
-            while (tempX < 7 && keepGoing)
-            {
-                tempX++;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            RightMove(game);
 
-            // left
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempX > 0 && keepGoing)
-            {
-                tempX--;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            LeftMove(game);
 
-            // up
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempY < 7 && keepGoing)
-            {
-                tempY++;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            UpMove(game);
 
-            // down
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempY > 0 && keepGoing)
-            {
-                tempY--;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            DownMove(game);
 
         }
     }

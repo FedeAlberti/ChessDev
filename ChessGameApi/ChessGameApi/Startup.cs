@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ChessGameApi.Domain;
+using ChessGameApi.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace ChessGameApi
 {
@@ -25,7 +20,23 @@ namespace ChessGameApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMvc();
+            
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
+            ServiceSingleton(services);
+
+            ServiceScope(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +57,16 @@ namespace ChessGameApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ServiceSingleton(IServiceCollection services)
+        {
+            services.AddSingleton<IGameRepository, GameRepository>();
+        }
+        
+        private void ServiceScope(IServiceCollection services)
+        {
+            services.AddScoped<IMoveRepository, MoveRepository>();
         }
     }
 }

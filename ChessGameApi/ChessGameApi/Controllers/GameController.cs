@@ -1,4 +1,4 @@
-﻿using ChessGameApi.Models;
+﻿using ChessGameApi.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChessGameApi.Controllers
@@ -7,16 +7,21 @@ namespace ChessGameApi.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-        [HttpPost]
+        private readonly IGameRepository _gameRepo;
+
+        public GameController(IGameRepository gameRepo)
+        {
+            _gameRepo = gameRepo;
+        }
+
+        [HttpPost("NewGame")]
         public IActionResult NewGame()
         {
 
-            Game newGame = new Game();
-            newGame.Initialize();
+            var game = _gameRepo.NewGame();
+            return Ok(game);
 
-            return Ok(newGame);
         }
-
 
     }
 }

@@ -5,8 +5,18 @@
     }
     public enum colorPlayer
     {
-        White = 1,
-        Black = 0
+        White,
+        Black
+    }
+
+    public enum PiecesTypeEnum
+    {
+        Pawn,
+        Rook,
+        Knight,
+        Bishop,
+        Queen,
+        King
     }
 }
 

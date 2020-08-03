@@ -6,23 +6,17 @@ namespace ChessGameAPI.Models.Pieces
 {
     public class Knight : Piece
     {
-        public Knight(Game game, colorPlayer color, int x, int y) : base(game, color, x, y)
+        public Knight(colorPlayer color, int x, int y) : base(color, x, y)
         {
+            this.PieceType = PiecesTypeEnum.Knight;
         }
 
         /// <summary>
         /// Get all possible moves.
         /// </summary>
-        public override void GetAllMoves()
+        public override void GetAllMoves(Game game)
         {
-            if (possibleMoves == null)
-            {
-                possibleMoves = new Dictionary<(int, int), Piece>();
-            }
-            else
-            {
-                possibleMoves.Clear();
-            }
+            CheckPossibleMove();
 
             int[] xOptions = new int[] { 2, 1, -1, -2, -2, -1, 1, 2 };
             int[] yOptions = new int[] { 1, 2, 2, 1, -1, -2, -2, -1 };
@@ -32,7 +26,7 @@ namespace ChessGameAPI.Models.Pieces
                 if (X + xOptions[i] >= 0 && X + xOptions[i] <= 7
                     && Y + yOptions[i] >= 0 && Y + yOptions[i] <= 7)
                 {
-                    Game.tryMove(X, Y, X + xOptions[i], Y + yOptions[i]);
+                    game.tryMove(Id, X + xOptions[i], Y + yOptions[i]);
                 }
             }
         }

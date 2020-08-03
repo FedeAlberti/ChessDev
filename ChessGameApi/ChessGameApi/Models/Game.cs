@@ -1,6 +1,7 @@
 ﻿using ChessGameApi.Helpers;
 using ChessGameAPI.Models.Pieces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChessGameApi.Models
 {
@@ -10,66 +11,53 @@ namespace ChessGameApi.Models
         protected IDictionary<(int, int), Piece> pieceDict;
         protected List<Piece> _pieces;
 
+        public Game()
+        {
+            InitGame();
+        }
+
         public List<Piece> Pieces
         {
             get
             {
-                return _pieces;
+                if (_pieces == null)
+                    return _pieces = new List<Piece>();
+                else
+                    return _pieces;
             }
+            set { _pieces = value; }
         }
 
-        /// <summary>
-        /// Set new game
-        /// </summary>
-        public void Initialize()
+        internal bool tryMove(int pieceID, int endX, int endY, bool isPawnCapture = false)
         {
-            pieceDict = new Dictionary<(int, int), Piece>();
-            _pieces = new List<Piece>(32);
-
-            //i is the x
-            for (int i = 0; i < BoardSize; i++)
+            Piece pieceToMove = GetPieceByID(pieceID);
+            
+            if (pieceToMove == null)
             {
-
-                _pieces.Add(new Pawn(this, colorPlayer.White, i, 1));
-                _pieces.Add(new Pawn(this, colorPlayer.Black, i, 6));
-                
-                switch (i)
-                {
-                    case 0:
-                    case 7:
-                        {//rooks
-                            _pieces.Add(new Rook(this, colorPlayer.White, i, 0));
-                            _pieces.Add(new Rook(this, colorPlayer.Black, i, 7));
-                            continue;
-                        }
-                    case 1:
-                    case 6:
-                        {//knights
-                            _pieces.Add(new Knight(this, colorPlayer.White, i, 0));
-                            _pieces.Add(new Knight(this, colorPlayer.Black, i, 7));
-                            continue;
-                        }
-                    case 2:
-                    case 5:
-                        {//bishops
-                            _pieces.Add(new Bishop(this, colorPlayer.White, i, 0));
-                            _pieces.Add(new Bishop(this, colorPlayer.Black, i, 7));
-                            continue;
-                        }
-                    case 3:
-                        {//queens
-                            _pieces.Add(new Queen(this, colorPlayer.White, i, 0));
-                            _pieces.Add(new Queen(this, colorPlayer.Black, i, 7));
-                            continue;
-                        }
-                    case 4:
-                        {//kings
-                            _pieces.Add(new King(this, colorPlayer.White, i, 0));
-                            _pieces.Add(new King(this, colorPlayer.Black, i, 7));
-                            continue;
-                        }
-                }
+                return false;
             }
+
+            Piece pieceAtEndLocation = GetPieceForXY(endX, endY);
+
+            if (pieceAtEndLocation!= null && 
+                pieceAtEndLocation.Color != pieceToMove.Color &&
+                !isPawnCapture)
+            {
+                //eat piece
+                pieceToMove.possibleMoves[(endX, endY)] = pieceAtEndLocation;     
+                return false;
+            }
+
+            if (pieceAtEndLocation != null && pieceAtEndLocation.Color == pieceToMove.Color)
+                return false;
+
+
+            if (isPawnCapture)
+                return false;
+
+            // add possible move
+            pieceToMove.possibleMoves[(endX, endY)] = null;
+            return true;
         }
 
         public Piece GetPieceForXY(int x, int y)
@@ -85,27 +73,19 @@ namespace ChessGameApi.Models
             }
             return null;
         }
-        internal bool tryMove(int StartX, int StartY, int endX, int endY, bool isPawnCapture = false)
+
+        public Piece GetPieceByID(int pieceID)
         {
-            Piece pieceToMove = GetPieceForXY(StartX, StartY);
-            if (pieceToMove == null)
+            IDictionary<(int, int), Piece> pieces = GetPieces();
+            if (pieces != null)
             {
-                return false;
+                Piece outPiece = pieces.Values.FirstOrDefault(x => x.Id == pieceID);
+                if (outPiece != null)
+                {
+                    return outPiece;
+                };
             }
-
-            Piece pieceAtEndLocation = GetPieceForXY(endX, endY);
-
-            if (pieceAtEndLocation!= null && 
-                pieceAtEndLocation.Color != pieceToMove.Color)
-            {
-                //eat piece
-                pieceToMove.possibleMoves[(endX, endY)] = pieceAtEndLocation;     
-                return false;
-            }
-
-            // add possible move
-            pieceToMove.possibleMoves[(endX, endY)] = null;
-            return true;
+            return null;
         }
 
         public IDictionary<(int, int), Piece> GetPieces()
@@ -120,5 +100,62 @@ namespace ChessGameApi.Models
             }
             return pieceDict;
         }
+
+        private void InitGame()
+        {
+            //i is the x
+            for (int i = 0; i < Game.BoardSize; i++)
+            {
+
+                Pieces.Add(new Pawn(colorPlayer.White, i, 1));
+                Pieces.Add(new Pawn(colorPlayer.Black, i, 6));
+
+                switch (i)
+                {
+                    case 0:
+                    case 7:
+                        {//rooks
+                            Pieces.Add(new Rook(colorPlayer.White, i, 0));
+                            Pieces.Add(new Rook(colorPlayer.Black, i, 7));
+                            continue;
+                        }
+                    case 1:
+                    case 6:
+                        {//knights
+                            Pieces.Add(new Knight(colorPlayer.White, i, 0));
+                            Pieces.Add(new Knight(colorPlayer.Black, i, 7));
+                            continue;
+                        }
+                    case 2:
+                    case 5:
+                        {//bishops
+                            Pieces.Add(new Bishop(colorPlayer.White, i, 0));
+                            Pieces.Add(new Bishop(colorPlayer.Black, i, 7));
+                            continue;
+                        }
+                    case 3:
+                        {//queens
+                            Pieces.Add(new Queen(colorPlayer.White, i, 0));
+                            Pieces.Add(new Queen(colorPlayer.Black, i, 7));
+                            continue;
+                        }
+                    case 4:
+                        {//kings
+                            Pieces.Add(new King(colorPlayer.White, i, 0));
+                            Pieces.Add(new King(colorPlayer.Black, i, 7));
+                            continue;
+                        }
+                }
+            }
+
+            int idsum = 0;
+            foreach (var piece in Pieces)
+            {
+                piece.Id = idsum;
+                idsum++;
+            }
+
+        }
+
     }
 }

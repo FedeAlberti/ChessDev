@@ -1,48 +1,39 @@
 ﻿using ChessGameApi.Helpers;
 using ChessGameApi.Models;
-using System.Collections.Generic;
 
 namespace ChessGameAPI.Models.Pieces
 {
     public class Pawn : Piece
     {
-        public bool IsCapturing;
-
-        public Pawn(Game game, colorPlayer color, int x, int y) : base(game, color, x, y)
+        public Pawn(colorPlayer color, int x, int y) : base(color, x, y)
         {
+            this.PieceType = PiecesTypeEnum.Pawn;
         }
 
         /// <summary>
         /// Get all possible moves.
         /// </summary>
-        public override void GetAllMoves()
+        public override void GetAllMoves(Game game)
         {
-            if (possibleMoves == null)
-            {
-                possibleMoves = new Dictionary<(int, int), Piece>();
-            }
-            else
-            {
-                possibleMoves.Clear();
-            }
+            CheckPossibleMove();
             // white side pawn
             if (Color == colorPlayer.White)
             {
                 if (Y == 1)
                 {
-                    Game.tryMove(X, Y, X, Y + 2);
+                    game.tryMove(Id, X, Y + 2);
                 }
                 if (Y < 7)
                 {
-                    Game.tryMove(X, Y, X, Y + 1);
+                    game.tryMove(Id, X, Y + 1);
                     //diagonal eat
                     if (X < 7)
                     {
-                        Game.tryMove(X, Y, X + 1, Y + 1);
+                        game.tryMove(Id, X + 1, Y + 1,true);
                     }
                     if (X > 0)
                     {
-                        Game.tryMove(X, Y, X - 1, Y + 1);
+                        game.tryMove(Id, X - 1, Y + 1,true);
                     }
                 }
             }
@@ -50,19 +41,19 @@ namespace ChessGameAPI.Models.Pieces
             { // black side
                 if (Y == 6)
                 {
-                    Game.tryMove(X, Y, X, Y - 2);
+                    game.tryMove(Id, X, Y - 2);
                 }
                 if (Y > 0)
                 {
-                    Game.tryMove(X, Y, X, Y - 1);
+                    game.tryMove(Id, X, Y - 1);
                     //diagonal eat
                     if (X < 7)
                     {
-                        Game.tryMove(X, Y, X + 1, Y - 1);
+                        game.tryMove(Id, X + 1, Y - 1,true);
                     }
                     if (X > 0)
                     {
-                        Game.tryMove(X, Y, X - 1, Y - 1);
+                        game.tryMove(Id, X - 1, Y - 1,true);
                     }
                 }
             }

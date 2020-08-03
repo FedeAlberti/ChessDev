@@ -1,72 +1,31 @@
 ﻿using ChessGameApi.Helpers;
 using ChessGameApi.Models;
-using System;
-using System.Collections.Generic;
 
 namespace ChessGameAPI.Models.Pieces
 {
     public class Bishop : Piece
     {
-        public Bishop(Game game, colorPlayer color, int x, int y) : base(game, color, x, y)
+        public Bishop(colorPlayer color, int x, int y) : base( color, x, y)
         {
+            PieceType = PiecesTypeEnum.Bishop;
         }
 
         /// <summary>
         /// Get all possible moves.
         /// </summary>
-        public override void GetAllMoves()
+        public override void GetAllMoves(Game game)
         {
-            if (possibleMoves == null)
-            {
-                possibleMoves = new Dictionary<(int, int), Piece>();
-            }
-            else
-            {
-                possibleMoves.Clear();
-            }
-            int tempX = X;
-            int tempY = Y;
-            bool keepGoing = true;
-            // up and right
-            while (tempX < 7 && tempY < 7 && keepGoing)
-            {
-                tempX++;
-                tempY++;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            CheckPossibleMove();
 
-            // up and left
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempX > 0 && tempY < 7 && keepGoing)
-            {
-                tempX--;
-                tempY++;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            UpRightMove(game);
 
-            // down and right
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempX < 7 && tempY > 0 && keepGoing)
-            {
-                tempX++;
-                tempY--;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            UpLeftMove(game);
 
-            // down and left
-            tempX = X;
-            tempY = Y;
-            keepGoing = true;
-            while (tempX > 0 && tempY > 0 && keepGoing)
-            {
-                tempX--;
-                tempY--;
-                keepGoing = Game.tryMove(X, Y, tempX, tempY);
-            }
+            DownRightMove(game);
+
+            DownLeftMove(game);
         }
+
+
     }
 }

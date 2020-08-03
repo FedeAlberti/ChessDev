@@ -1,29 +1,22 @@
 ﻿using ChessGameApi.Helpers;
 using ChessGameApi.Models;
-using System.Collections.Generic;
 
 namespace ChessGameAPI.Models.Pieces
 {
     public class King : Piece
     {
-        public King(Game game, colorPlayer color, int x, int y) : base(game, color, x, y)
+        public King(colorPlayer color, int x, int y) : base(color, x, y)
         {
+            this.PieceType = PiecesTypeEnum.King;
         }
 
         /// <summary>
         /// Get all possible moves.
         /// </summary>
-        public override void GetAllMoves()
+        public override void GetAllMoves(Game game)
         {
-            if (possibleMoves == null)
-            {
-                possibleMoves = new Dictionary<(int, int), Piece>();
-            }
-            else
-            {
-                possibleMoves.Clear();
-            }
-            possibleMoves.Clear();
+            CheckPossibleMove();
+
             bool canMoveRight = X > 0;
             bool canMoveLeft = X < 7;
             bool canMoveUp = Y < 7;
@@ -31,35 +24,38 @@ namespace ChessGameAPI.Models.Pieces
 
             if (canMoveRight)
             {
-                Game.tryMove(X, Y, X + 1, Y);
+                game.tryMove(Id, X + 1, Y);
                 if (canMoveUp)
                 {
-                    Game.tryMove(X, Y, X + 1, Y + 1);
+                    game.tryMove(Id, X + 1, Y + 1);
                 }
                 if (canMoveDown)
                 {
-                    Game.tryMove(X, Y, X + 1, Y - 1);
+                    game.tryMove(Id, X + 1, Y - 1);
                 }
             }
+            
             if (canMoveLeft)
             {
-                Game.tryMove(X, Y, X - 1, Y);
+                game.tryMove(Id, X - 1, Y);
                 if (canMoveUp)
                 {
-                    Game.tryMove(X, Y, X - 1, Y + 1);
+                    game.tryMove(Id, X - 1, Y + 1);
                 }
                 if (canMoveDown)
                 {
-                    Game.tryMove(X, Y, X - 1, Y - 1);
+                    game.tryMove(Id, X - 1, Y - 1);
                 }
             }
+
             if (canMoveUp)
             {
-                Game.tryMove(X, Y, X, Y + 1);
+                game.tryMove(Id, X, Y + 1);
             }
+
             if (canMoveDown)
             {
-                Game.tryMove(X, Y, X, Y - 1);
+                game.tryMove(Id, X, Y - 1);
             }
 
         }
