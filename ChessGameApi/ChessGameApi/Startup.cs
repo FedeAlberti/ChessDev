@@ -1,3 +1,4 @@
+using AutoMapper;
 using ChessGameApi.Domain;
 using ChessGameApi.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ChessGameApi
 {
@@ -22,17 +24,18 @@ namespace ChessGameApi
         {
 
             services.AddMvc();
-            
+
             services.AddControllers();
 
-            services.AddCors(options =>
+            services.AddCors(o => o.AddPolicy("AllowAnyOrigin", builder =>
             {
-                options.AddPolicy("AllowAnyOrigin",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin();
+            }));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             ServiceSingleton(services);
 
@@ -46,6 +49,8 @@ namespace ChessGameApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowAnyOrigin");
 
             app.UseHttpsRedirection();
 

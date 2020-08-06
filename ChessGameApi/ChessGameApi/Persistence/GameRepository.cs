@@ -1,6 +1,5 @@
 ﻿using ChessGameApi.Domain;
 using ChessGameApi.Models;
-using System.Collections.Generic;
 
 namespace ChessGameApi.Persistence
 {
@@ -25,13 +24,9 @@ namespace ChessGameApi.Persistence
             game = new Game();
             return game;
         }
-        public Game getGame()
+        public Game GetGame()
         {
             return game;
-        }
-        public IDictionary<(int, int), Piece> GetPiece()
-        {
-            return game.GetPieces();
         }
 
         public Piece GetPieceByXY(int x, int y)

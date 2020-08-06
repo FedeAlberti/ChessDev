@@ -1,4 +1,6 @@
-﻿using ChessGameApi.Domain;
+﻿using AutoMapper;
+using ChessGameApi.Domain;
+using ChessGameAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChessGameApi.Controllers
@@ -8,19 +10,20 @@ namespace ChessGameApi.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameRepository _gameRepo;
+        private readonly IMapper _mapper;
 
-        public GameController(IGameRepository gameRepo)
+        public GameController(IGameRepository gameRepo,
+                              IMapper mapper)
         {
             _gameRepo = gameRepo;
+            _mapper = mapper;
         }
 
         [HttpPost("NewGame")]
         public IActionResult NewGame()
         {
-
-            var game = _gameRepo.NewGame();
-            return Ok(game);
-
+            var gameDto = _mapper.Map<GameDto>(_gameRepo.NewGame());
+            return Ok(gameDto);
         }
 
     }

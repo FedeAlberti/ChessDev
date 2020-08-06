@@ -24,38 +24,38 @@ namespace ChessGameAPI.Models.Pieces
 
             if (canMoveRight)
             {
-                game.tryMove(Id, X + 1, Y);
+                game.tryMove(this, X + 1, Y);
                 if (canMoveUp)
                 {
-                    game.tryMove(Id, X + 1, Y + 1);
+                    game.tryMove(this, X + 1, Y + 1);
                 }
                 if (canMoveDown)
                 {
-                    game.tryMove(Id, X + 1, Y - 1);
+                    game.tryMove(this, X + 1, Y - 1);
                 }
             }
             
             if (canMoveLeft)
             {
-                game.tryMove(Id, X - 1, Y);
+                game.tryMove(this, X - 1, Y);
                 if (canMoveUp)
                 {
-                    game.tryMove(Id, X - 1, Y + 1);
+                    game.tryMove(this, X - 1, Y + 1);
                 }
                 if (canMoveDown)
                 {
-                    game.tryMove(Id, X - 1, Y - 1);
+                    game.tryMove(this, X - 1, Y - 1);
                 }
             }
 
             if (canMoveUp)
             {
-                game.tryMove(Id, X, Y + 1);
+                game.tryMove(this, X, Y + 1);
             }
 
             if (canMoveDown)
             {
-                game.tryMove(Id, X, Y - 1);
+                game.tryMove(this, X, Y - 1);
             }
 
         }

@@ -8,7 +8,7 @@ namespace ChessGameApi.Domain
     {
         public Game MovePiece(Game game, int pieceId, int endX,int endY)
         {
-            var moves = PossibleMove(game, pieceId);
+            var moves = GetPotentialMoves(game, pieceId);
             if (moves.ContainsKey((endX, endY)))
             {
 
@@ -28,12 +28,24 @@ namespace ChessGameApi.Domain
             return game;
         }
 
-        public IDictionary<(int, int), Piece> PossibleMove(Game game, int pieceID)
+        public List<PieceToMove> PossibleMove(Game game, int pieceID)
+        {
+            var resplist = new List<PieceToMove>();
+            var potMov = GetPotentialMoves(game, pieceID);
+            foreach (var item in potMov)
+            {
+                resplist.Add(new PieceToMove(item.Key.Item1, item.Key.Item2, item.Value));
+            }
+            return resplist;
+
+        }
+
+        private IDictionary<(int, int), Piece> GetPotentialMoves(Game game, int pieceID)
         {
             var piece = game.GetPieceByID(pieceID);
             piece.GetAllMoves(game);
             return piece.possibleMoves;
-
         }
+
     }
 }

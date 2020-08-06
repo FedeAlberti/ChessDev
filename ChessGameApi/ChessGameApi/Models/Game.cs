@@ -8,7 +8,6 @@ namespace ChessGameApi.Models
     public class Game
     {
         public const int BoardSize = 8;
-        protected IDictionary<(int, int), Piece> pieceDict;
         protected List<Piece> _pieces;
 
         public Game()
@@ -28,9 +27,8 @@ namespace ChessGameApi.Models
             set { _pieces = value; }
         }
 
-        internal bool tryMove(int pieceID, int endX, int endY, bool isPawnCapture = false)
+        internal bool tryMove(Piece pieceToMove, int endX, int endY, bool isPawnCapture = false)
         {
-            Piece pieceToMove = GetPieceByID(pieceID);
             
             if (pieceToMove == null)
             {
@@ -62,43 +60,12 @@ namespace ChessGameApi.Models
 
         public Piece GetPieceForXY(int x, int y)
         {
-            IDictionary<(int, int), Piece> pieces = GetPieces();
-            if (pieces != null)
-            {
-                Piece outPiece;
-                if (pieces.TryGetValue((x, y), out outPiece))
-                {
-                    return outPiece;
-                };
-            }
-            return null;
+            return Pieces.FirstOrDefault(pic => pic.X == x && pic.Y == y);
         }
 
         public Piece GetPieceByID(int pieceID)
         {
-            IDictionary<(int, int), Piece> pieces = GetPieces();
-            if (pieces != null)
-            {
-                Piece outPiece = pieces.Values.FirstOrDefault(x => x.Id == pieceID);
-                if (outPiece != null)
-                {
-                    return outPiece;
-                };
-            }
-            return null;
-        }
-
-        public IDictionary<(int, int), Piece> GetPieces()
-        {
-            if (pieceDict == null && _pieces != null)
-            {
-                pieceDict = new Dictionary<(int, int), Piece>();
-                foreach (Piece piece in _pieces)
-                {
-                    pieceDict.Add((piece.X, piece.Y), piece);
-                }
-            }
-            return pieceDict;
+            return Pieces.FirstOrDefault(x => x.Id == pieceID);
         }
 
         private void InitGame()

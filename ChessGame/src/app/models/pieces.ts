@@ -5,8 +5,9 @@ export class Piece {
   id: number;
   x: number;
   y: number;
-  typePiece: string;
-  game: Game;
+  pieceType: string;
+  color: string;
+
   // move coordinates and the enemy piece discriminator it would capture
   possibleMoves?: Map<string, string>;
 

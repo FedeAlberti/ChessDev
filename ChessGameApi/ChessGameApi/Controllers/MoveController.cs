@@ -1,4 +1,8 @@
-﻿using ChessGameApi.Domain;
+﻿using AutoMapper;
+using ChessGameApi.Domain;
+using ChessGameApi.DTOs;
+using ChessGameApi.Models;
+using ChessGameAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChessGameApi.Controllers
@@ -9,29 +13,40 @@ namespace ChessGameApi.Controllers
     {
         private readonly IMoveRepository _moveRepo;
         private readonly IGameRepository _gameRepo;
+        private readonly IMapper _mapper;
 
         public MoveController(IMoveRepository moveRepo,
-                              IGameRepository gameRepo)
+                              IGameRepository gameRepo,
+                              IMapper mapper)
         {
             _moveRepo = moveRepo;
             _gameRepo = gameRepo;
+            _mapper = mapper;
         }
 
         [HttpPost("PossibleMoves")]
-        public IActionResult PossibleMoves()
+        public IActionResult PossibleMoves(PieceDto pic)
         {
-            int pieceId = 1;
-            var resp = _moveRepo.PossibleMove(_gameRepo.getGame(), pieceId);
+            var resp = _moveRepo.PossibleMove(_gameRepo.GetGame(), pic.id);
+
             return Ok(resp);
 
         }
 
         [HttpPost("MovePiece")]
-        public IActionResult MovePiece()
+        public IActionResult MovePiece(PieceToMoveDto picToMove)
         {
-            int pieceId = 0;
-            var resp = _moveRepo.MovePiece(_gameRepo.getGame(), pieceId,0,2);
-            return Ok(resp);
+            var resp = _moveRepo.MovePiece(_gameRepo.GetGame(), picToMove.piece.id, picToMove.X,picToMove.Y);
+            var gameDto = _mapper.Map<GameDto>(resp);
+            return Ok(gameDto);
+
+        }
+
+        [HttpGet("test")]
+        public IActionResult test()
+        {
+
+            return Ok("hola");
 
         }
 

@@ -69,7 +69,7 @@ namespace ChessGameApi.Models
             {
                 tempX--;
                 tempY++;
-                keepGoing = game.tryMove(Id, tempX, tempY);
+                keepGoing = game.tryMove(this, tempX, tempY);
             }
         }
 
@@ -82,7 +82,7 @@ namespace ChessGameApi.Models
             {
                 tempX++;
                 tempY--;
-                keepGoing = game.tryMove(Id, tempX, tempY);
+                keepGoing = game.tryMove(this, tempX, tempY);
             }
         }
 
@@ -95,7 +95,7 @@ namespace ChessGameApi.Models
             {
                 tempX--;
                 tempY--;
-                keepGoing = game.tryMove(Id, tempX, tempY);
+                keepGoing = game.tryMove(this, tempX, tempY);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ChessGameApi.Models
             {
                 tempX++;
                 tempY++;
-                keepGoing = game.tryMove(Id, tempX, tempY);
+                keepGoing = game.tryMove(this, tempX, tempY);
             }
         }
 
@@ -119,7 +119,7 @@ namespace ChessGameApi.Models
             while (tempX < 7 && keepGoing)
             {
                 tempX++;
-                keepGoing = game.tryMove(Id, tempX, Y);
+                keepGoing = game.tryMove(this, tempX, Y);
             }
         }
         internal void LeftMove(Game game)
@@ -129,7 +129,7 @@ namespace ChessGameApi.Models
             while (tempX > 0 && keepGoing)
             {
                 tempX--;
-                keepGoing = game.tryMove(Id, tempX, Y);
+                keepGoing = game.tryMove(this, tempX, Y);
             }
         }
         
@@ -140,7 +140,7 @@ namespace ChessGameApi.Models
             while (tempY < 7 && keepGoing)
             {
                 tempY++;
-                keepGoing = game.tryMove(Id, X, tempY);
+                keepGoing = game.tryMove(this, X, tempY);
             }
         }
         
@@ -151,7 +151,7 @@ namespace ChessGameApi.Models
             while (tempY > 0 && keepGoing)
             {
                 tempY--;
-                keepGoing = game.tryMove(Id, X, tempY);
+                keepGoing = game.tryMove(this, X, tempY);
             }
         }
 

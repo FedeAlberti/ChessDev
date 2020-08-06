@@ -26,7 +26,7 @@ namespace ChessGameAPI.Models.Pieces
                 if (X + xOptions[i] >= 0 && X + xOptions[i] <= 7
                     && Y + yOptions[i] >= 0 && Y + yOptions[i] <= 7)
                 {
-                    game.tryMove(Id, X + xOptions[i], Y + yOptions[i]);
+                    game.tryMove(this, X + xOptions[i], Y + yOptions[i]);
                 }
             }
         }

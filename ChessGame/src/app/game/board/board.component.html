@@ -4,6 +4,8 @@
       <app-board-square
           [x]='column'
           [y]='row'
+          [game]='game'
+          (clicksquare)="pickPiece($event)"
       >
         </app-board-square>
     </div>

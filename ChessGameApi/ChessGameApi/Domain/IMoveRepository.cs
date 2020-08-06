@@ -7,6 +7,6 @@ namespace ChessGameApi.Domain
     {
         public Game MovePiece(Game game, int pieceId, int endX, int endY);
 
-        public IDictionary<(int, int), Piece> PossibleMove(Game game, int pieceID);
+        public List<PieceToMove> PossibleMove(Game game, int pieceID);
     }
 }

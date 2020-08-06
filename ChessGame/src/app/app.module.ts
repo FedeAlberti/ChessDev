@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './game/board/board.component';
 import { BoardSquareComponent } from './game/board-square/board-square.component';
+import { HttpClientModule } from '@angular/common/http';
+import { GameService } from './services/game.service';
+import { MoveService } from './services/move.service';
 
 @NgModule({
   declarations: [
@@ -12,9 +15,13 @@ import { BoardSquareComponent } from './game/board-square/board-square.component
     BoardSquareComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    GameService,
+    MoveService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

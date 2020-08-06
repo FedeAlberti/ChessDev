@@ -9,9 +9,8 @@ namespace ChessGameApi.Domain
     public interface IGameRepository
     {
         Game NewGame();
-        Game getGame();
+        Game GetGame();
         Piece GetPieceByXY(int x, int y);
-        IDictionary<(int, int), Piece> GetPiece();
 
     }
 }

@@ -21,19 +21,19 @@ namespace ChessGameAPI.Models.Pieces
             {
                 if (Y == 1)
                 {
-                    game.tryMove(Id, X, Y + 2);
+                    game.tryMove(this, X, Y + 2);
                 }
                 if (Y < 7)
                 {
-                    game.tryMove(Id, X, Y + 1);
+                    game.tryMove(this, X, Y + 1);
                     //diagonal eat
                     if (X < 7)
                     {
-                        game.tryMove(Id, X + 1, Y + 1,true);
+                        game.tryMove(this, X + 1, Y + 1,true);
                     }
                     if (X > 0)
                     {
-                        game.tryMove(Id, X - 1, Y + 1,true);
+                        game.tryMove(this, X - 1, Y + 1,true);
                     }
                 }
             }
@@ -41,19 +41,19 @@ namespace ChessGameAPI.Models.Pieces
             { // black side
                 if (Y == 6)
                 {
-                    game.tryMove(Id, X, Y - 2);
+                    game.tryMove(this, X, Y - 2);
                 }
                 if (Y > 0)
                 {
-                    game.tryMove(Id, X, Y - 1);
+                    game.tryMove(this, X, Y - 1);
                     //diagonal eat
                     if (X < 7)
                     {
-                        game.tryMove(Id, X + 1, Y - 1,true);
+                        game.tryMove(this, X + 1, Y - 1,true);
                     }
                     if (X > 0)
                     {
-                        game.tryMove(Id, X - 1, Y - 1,true);
+                        game.tryMove(this, X - 1, Y - 1,true);
                     }
                 }
             }
