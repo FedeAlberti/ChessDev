@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { MoveService } from 'src/app/services/move.service';
-import { PotentialMove, PMove } from '../board-square/board-square.component';
+import { PotentialMove, PMove } from 'src/app/models/pMove';
 
 @Component({
   selector: 'app-board',
@@ -15,10 +15,7 @@ export class BoardComponent {
   boardY: any[];
   game: Game;
   potmov: PotentialMove;
-  potmovNew: PotentialMove;
 
-  isMoving = false;
-  isWaitForServer = false;
 
   constructor(private gameservice: GameService,
               private moveservice: MoveService) {
@@ -36,22 +33,22 @@ export class BoardComponent {
   }
 
   pickPiece(event: PotentialMove){
-    debugger;
-    if ( !this.isMoving)
+    if ( !this.game.isMoving)
     {
-      this.isMoving = true;
+      this.game.isMoving = true;
       this.potmov = event;
     }else
     {
-      let eee = this.potmov.moves.find(x => x.x === event.x && x.y === event.y);
-      if (eee){
-        let aa = new PMove(eee.x, eee.y, this.potmov.piece);
-        this.moveservice.MovePiece(aa).subscribe(x => {
-          debugger;
+      const availableMove = this.potmov.moves.find(x => x.x === event.x && x.y === event.y);
+      if (availableMove && this.potmov){
+        const moveOrder = new PMove(availableMove.x, availableMove.y, this.potmov.piece);
+        this.moveservice.MovePiece(moveOrder).subscribe(x => {
           this.game = x;
-          this.isMoving = false;
+          this.game.isMoving = false;
           this.potmov = null;
-        })
+        });
+      }else{
+        this.game.isMoving = false;
       }
     }
   }

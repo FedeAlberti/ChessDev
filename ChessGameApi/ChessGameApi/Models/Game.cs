@@ -27,28 +27,35 @@ namespace ChessGameApi.Models
             set { _pieces = value; }
         }
 
-        internal bool tryMove(Piece pieceToMove, int endX, int endY, bool isPawnCapture = false)
+        internal bool tryMove(Piece pieceToMove, int endX, int endY, bool isPawnCapture = false, bool donteat = false)
         {
-            
+            bool SameColor = false;
+            bool pieceNotNull = false;
+
             if (pieceToMove == null)
-            {
                 return false;
-            }
 
             Piece pieceAtEndLocation = GetPieceForXY(endX, endY);
 
-            if (pieceAtEndLocation!= null && 
-                pieceAtEndLocation.Color != pieceToMove.Color &&
-                !isPawnCapture)
+            if (pieceAtEndLocation != null)
             {
-                //eat piece
-                pieceToMove.possibleMoves[(endX, endY)] = pieceAtEndLocation;     
-                return false;
+                SameColor = pieceAtEndLocation.Color == pieceToMove.Color;
+                pieceNotNull = true;
             }
 
-            if (pieceAtEndLocation != null && pieceAtEndLocation.Color == pieceToMove.Color)
+            if (SameColor)
                 return false;
 
+            if (pieceNotNull &&
+                !SameColor)
+            {
+                if (!donteat)
+                {
+                    //eat piece
+                    pieceToMove.possibleMoves[(endX, endY)] = pieceAtEndLocation;
+                }
+                return false;
+            }
 
             if (isPawnCapture)
                 return false;

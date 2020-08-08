@@ -2,6 +2,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Game } from 'src/app/models/game';
 import { Piece } from 'src/app/models/pieces';
 import { MoveService } from 'src/app/services/move.service';
+import { PotentialMove } from 'src/app/models/pMove';
+
 
 @Component({
   selector: 'app-board-square',
@@ -17,6 +19,7 @@ export class BoardSquareComponent implements OnInit {
   get game(): Game { return this._game; }
   set game(game: Game) {
     this.getPiece(game);
+    this._game = game;
   }
 
   // tslint:disable-next-line: variable-name
@@ -36,7 +39,7 @@ export class BoardSquareComponent implements OnInit {
     let cssString = '';
     if (this._piece) {
       cssString = this._piece.color + '-' + this._piece.pieceType;
-    }else{
+    } else {
       cssString = '';
     }
     return cssString;
@@ -48,37 +51,43 @@ export class BoardSquareComponent implements OnInit {
     }
   }
 
-  test() {
-    debugger;
-    if (this._piece) {
-      this.moveservice.PossibleMove(this._piece.id).subscribe(x => {
-        this.limpiarCuadrito();
-        debugger;
-        x.forEach(element => {
-          this.pintarCuadrito(element);
-        });
-        this.potmov = new PotentialMove(this.x, this.y, this._piece , x);
-        this.clicksquare.emit(this.potmov);
-      }
-      );
-    } else {
-      this.potmov = new PotentialMove(this.x, this.y);
-      this.clicksquare.emit(this.potmov);
-      this.limpiarCuadrito();
+  ClickSquare() {
+    if (this.game.isMoving) {
+      this.PieceMove();
+    }else{
+      this.PieceSelect();
     }
   }
 
-  pintarCuadrito(potLoc: PotentialMove) {
+  private PieceSelect() {
+    if (this._piece) {
+      this.moveservice.PossibleMove(this._piece.id).subscribe(x => {
+        this.CleanSquareColor();
+        x.forEach(element => {
+          this.FillSquareColor(element);
+        });
+        this.potmov = new PotentialMove(this.x, this.y, this._piece, x);
+        this.clicksquare.emit(this.potmov);
+      }
+      );
+    }
+  }
 
+  private PieceMove(){
+    this.potmov = new PotentialMove(this.x, this.y);
+    this.clicksquare.emit(this.potmov);
+    this.CleanSquareColor();
+  }
+
+  FillSquareColor(potLoc: PotentialMove) {
     if (potLoc) {
       const coso = potLoc.x + '-' + potLoc.y;
       const element = document.getElementById(coso);
       element.style.backgroundColor = 'green';
-
     }
   }
 
-  limpiarCuadrito() {
+  CleanSquareColor() {
     for (let index = 0; index <= 7; index++) {
       for (let index2 = 0; index2 <= 7; index2++) {
         const coso = index + '-' + index2;
@@ -89,28 +98,4 @@ export class BoardSquareComponent implements OnInit {
   }
 }
 
-export class PotentialMove {
-  piece: Piece;
-  moves: PMove[];
-  x: number;
-  y: number;
 
-  constructor(x?: number, y?: number, piece?: Piece, pmove?: PMove[] ) {
-    this.x = x;
-    this.y = y;
-    this.piece = piece;
-    this.moves = pmove;
-  }
-}
-
-export class PMove {
-  x: number;
-  y: number;
-  piece: Piece;
-
-  constructor(x?: number, y?: number, piece?: Piece ) {
-    this.x = x;
-    this.y = y;
-    this.piece = piece;
-  }
-}

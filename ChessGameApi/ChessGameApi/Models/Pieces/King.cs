@@ -17,8 +17,8 @@ namespace ChessGameAPI.Models.Pieces
         {
             CheckPossibleMove();
 
-            bool canMoveRight = X > 0;
-            bool canMoveLeft = X < 7;
+            bool canMoveLeft = X > 0;
+            bool canMoveRight = X < 7;
             bool canMoveUp = Y < 7;
             bool canMoveDown = Y > 0;
 

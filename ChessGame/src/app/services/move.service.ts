@@ -4,7 +4,8 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Game } from '../models/game';
 import { Piece } from '../models/pieces';
-import { PMove, PotentialMove } from '../game/board-square/board-square.component';
+import { PotentialMove, PMove } from '../models/pMove';
+
 
 @Injectable({
   providedIn: 'root'
